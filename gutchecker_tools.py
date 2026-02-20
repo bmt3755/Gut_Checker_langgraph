@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from langchain.agents import Tool
+#from langchain.agents import Tool
+from langchain_core.tools import Tool
 from langchain_community.utilities import GoogleSerperAPIWrapper
 from langchain_community.tools.playwright.utils import create_async_playwright_browser
 from langchain_community.agent_toolkits import PlayWrightBrowserToolkit
