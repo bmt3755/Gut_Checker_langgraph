@@ -1,3 +1,12 @@
+---
+title: GutChecker
+emoji: 🛡️
+colorFrom: green
+colorTo: emerald
+sdk: gradio
+app_file: app.py
+pinned: false
+---
 # GutChecker: Agentic Food Safety Auditor
 
 GutChecker is a high-precision, multi-agent workflow designed to analyze food products for harmful additives. Moving beyond standard linear LLM prompts, this system utilizes a self-correcting Manager-Worker architecture to scrape live product data, cross-reference nutritional safety databases, and enforce strict mathematical and formatting rules.
@@ -93,6 +102,6 @@ python app.py
 
 ```
 
-The terminal will provide a local URL (typically `http://127.0.0.1:7860`). Open this link in your browser to start using GutChecker.
+The terminal will provide a local URL. Open the link in your browser to start using GutChecker.
 
 ```
