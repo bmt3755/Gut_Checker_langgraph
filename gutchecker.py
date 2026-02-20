@@ -41,7 +41,11 @@ class GutChecker:
         self.worker_llm_with_tools = worker_llm.bind_tools(self.tools)
         
         evaluator_llm = ChatOpenAI(model="gpt-4o-mini")
-        self.evaluator_llm_with_output = evaluator_llm.with_structured_output(EvaluatorOutput)
+        #self.evaluator_llm_with_output = evaluator_llm.with_structured_output(EvaluatorOutput)
+        self.evaluator_llm_with_output = evaluator_llm.with_structured_output(
+            EvaluatorOutput, 
+            method="function_calling"
+        )
         
         await self.build_graph()
 
