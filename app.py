@@ -34,7 +34,7 @@ with gr.Blocks(title="GutChecker", theme=gr.themes.Soft(primary_hue="emerald")) 
     agent_state = gr.State(delete_callback=free_resources)
 
     with gr.Row():
-        chatbot = gr.Chatbot(label="Auditor Transcript", height=500, type="messages")
+        chatbot = gr.Chatbot(label="Auditor Transcript", height=500)
     
     with gr.Row():
         message = gr.Textbox(show_label=False, placeholder="Paste product URL or ingredients list here...", scale=4)
