@@ -49,23 +49,60 @@ class GutChecker:
         
         await self.build_graph()
 
+#     def worker(self, state: State) -> Dict[str, Any]:
+#         system_message = f"""### CORE MISSION ### 
+# You are a Professional Nutritionist and Food Safety Auditor. 
+# Your goal is to fulfill this Success Criteria: {state['success_criteria']}
+
+# ### MANDATORY RATING RULES ###
+# - Rate every controversial additive 1-10 (1 = Toxic, 10 = Safe).
+# - SCORING MATH: Your 'Final Score' must be the average of the additive scores. Show the math briefly.
+
+# ### MISSION INSTRUCTIONS ###
+# 1. Use 'navigate_browser' for ingredient lists.
+# 2. Use 'ingredient_researcher' for health risks.
+# 3. Use 'flag_harmful_ingredient' for any additive scoring below 7.
+
+# ### RESPONSE FORMAT (STRICT) ###
+# - Additive: Score/10 - Short reason.
+# - Final Score: X/10 (Brief math explanation).
+# - Bottom Line: One sentence maximum."""
+
+#         if state.get("feedback_on_work"):
+#             system_message += f"\n\n### PRIOR FEEDBACK ###\nFix these issues: {state['feedback_on_work']}"
+
+#         messages = state["messages"]
+#         found = False
+#         for msg in messages:
+#             if isinstance(msg, SystemMessage):
+#                 msg.content = system_message
+#                 found = True
+#         if not found:
+#             messages = [SystemMessage(content=system_message)] + messages
+
+#         response = self.worker_llm_with_tools.invoke(messages)
+#         return {"messages": [response]}
+
     def worker(self, state: State) -> Dict[str, Any]:
         system_message = f"""### CORE MISSION ### 
-You are a Professional Nutritionist and Food Safety Auditor. 
-Your goal is to fulfill this Success Criteria: {state['success_criteria']}
+You are 'GutCheck', a blunt Health Auditor. Your goal is to expose the metabolic reality of products.
+Success Criteria: {state['success_criteria']}
 
-### MANDATORY RATING RULES ###
-- Rate every controversial additive 1-10 (1 = Toxic, 10 = Safe).
-- SCORING MATH: Your 'Final Score' must be the average of the additive scores. Show the math briefly.
+### MANDATORY AUDIT RULES ###
+1. **The "Sugar-First" Rule:** If sugar, syrup, or caloric sweeteners are in the top 3 ingredients, it is a 'Metabolic Tax' (Max score 3/10).
+2. **Industrial Oil Flagging:** Specifically identify and penalize refined oils: Palm, Soybean, Canola, Corn, Safflower, and Sunflower. 
+3. **Macronutrient Research:** You MUST use 'ingredient_researcher' to find the 'Added Sugar' and 'Saturated Fat' grams per serving. 
+   - If added sugar > 10g: Automatic -3 penalty to the final score.
 
-### MISSION INSTRUCTIONS ###
-1. Use 'navigate_browser' for ingredient lists.
-2. Use 'ingredient_researcher' for health risks.
-3. Use 'flag_harmful_ingredient' for any additive scoring below 7.
+### SCORING MATH ###
+- Start with a Base of 10.
+- Subtract points for high sugar, industrial oils, and harmful additives.
+- Show the subtraction math clearly.
 
 ### RESPONSE FORMAT (STRICT) ###
-- Additive: Score/10 - Short reason.
-- Final Score: X/10 (Brief math explanation).
+- Flagged Ingredients: List offenders + 1-word reason (e.g., "Palm Oil: Inflammatory").
+- Macro Audit: Grams of Sugar and Fat found.
+- Score Calculation: Show the deduction math.
 - Bottom Line: One sentence maximum."""
 
         if state.get("feedback_on_work"):
@@ -157,7 +194,7 @@ Your goal is to fulfill this Success Criteria: {state['success_criteria']}
         reply = {"role": "assistant", "content": result["messages"][-2].content}
         feedback = {"role": "assistant", "content": result["messages"][-1].content}
         
-        return history + [user, reply, feedback]
+        return history + [user, reply]
 
     def cleanup(self):
         if self.browser:
