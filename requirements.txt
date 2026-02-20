@@ -7,3 +7,4 @@ gradio
 python-dotenv
 nest-asyncio
 playwright
+beautifulsoup4
