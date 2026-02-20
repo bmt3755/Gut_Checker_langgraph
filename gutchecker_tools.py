@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 #from langchain.agents import Tool
-from langchain_core.tools import Tool
+from langchain_core.tools import Tool, StructuredTool
 from langchain_community.utilities import GoogleSerperAPIWrapper
 from langchain_community.tools.playwright.utils import create_async_playwright_browser
 from langchain_community.agent_toolkits import PlayWrightBrowserToolkit
@@ -32,7 +32,7 @@ async def get_all_tools():
         description="Search for food labels and nutritional additives."
     )
     
-    tool_flag = Tool(
+    tool_flag = StructuredTool.from_function(
         name="flag_harmful_ingredient",
         func=flag_ingredient,
         description="Mark ingredients as dangerous for the UI."
