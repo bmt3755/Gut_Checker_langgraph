@@ -2,7 +2,7 @@
 title: GutChecker
 emoji: 🛡️
 colorFrom: green
-colorTo: emerald
+colorTo: purple
 sdk: gradio
 app_file: app.py
 pinned: false
