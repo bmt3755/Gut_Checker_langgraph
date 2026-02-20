@@ -38,4 +38,4 @@ async def get_all_tools():
         description="Mark ingredients as dangerous for the UI."
     )
     
-    return pw_tools + [tool_search, tool_flag], async_browser, None
+    return pw_tools + [tool_search, tool_flag], async_browser
