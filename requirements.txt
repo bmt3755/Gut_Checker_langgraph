@@ -8,3 +8,4 @@ python-dotenv
 nest-asyncio
 playwright
 beautifulsoup4
+lxml
